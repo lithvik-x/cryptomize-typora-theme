@@ -1,0 +1,8 @@
+{
+  "name": "CryptoMize Dark",
+  "author": "CryptoMize",
+  "version": "1.0.0",
+  "description": "CryptoMize Typora Theme, dark mode — vivid brand red on deep blue-ink, Rajdhani typography, WCAG AA, full-width flow; prints light.",
+  "tags": ["dark", "cryptomize", "red", "brand", "rajdhani"],
+  "compatibleVersion": ">=0.11.18"
+}

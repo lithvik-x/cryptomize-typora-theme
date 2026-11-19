@@ -1,0 +1,694 @@
+/* [TOKENS-MAPPED] — CryptoMize palette -> Typora native variables.
+   Frame (window chrome, around #write) gets the muted frame tones; #write is the paper.
+   Complete native-var coverage in both modes so dark mode never leaks light artifacts. */
+:root {
+  /* [FONTS] Rajdhani across the board — text, headings, UI, and code (by design; Latin +
+     Devanagari covered natively). Rajdhani's heaviest weight is Bold 700. */
+  --font-default: "Rajdhani", "Noto Sans", sans-serif;
+  --font: "Rajdhani", "Noto Serif", serif;                /* heading stack */
+  --font-monospace: "Rajdhani", "Noto Sans", sans-serif;  /* code — proportional per directive */
+  /* --file-line-width and --link-color are owned by build.py (v2 layer: full-width flow + WCAG link color) */
+  --bg-color: var(--surface);
+  --side-bar-bg-color: var(--frame);
+  --text-color: var(--ink);
+  --primary-color: var(--brand);
+  --primary-btn-border-color: var(--brand);
+  --primary-btn-text-color: var(--on-brand);
+  --active-file-bg-color: var(--brand-deep);
+  --active-file-text-color: var(--on-brand);
+  --active-file-border-color: var(--marker);
+  --item-hover-bg-color: var(--hover-bg);
+  --item-hover-text-color: var(--ink);
+  --control-text-color: var(--ink-soft);
+  --control-text-hover-color: var(--ink);
+  --select-text-bg-color: var(--selection);
+  --select-text-font-color: inherit;
+  --search-select-bg-color: var(--mark-bg);
+  --search-select-text-color: var(--on-brand);
+  --md-char-color: var(--ink-faint);
+  --meta-content-color: var(--ink-soft);
+  --heading-char-color: var(--ink-faint);
+  --blur-text-color: var(--ink-faint);
+  --drag-placeholder-color: var(--hover-bg);
+  --table-border-color: var(--grid);
+  --panel-border-color: var(--edge);
+  --rawblock-edit-panel-bd: var(--code-bg);
+  --color-popover-bg-color: var(--panel);
+  --focus-ring-color: var(--marker);
+  --active-toggle-btn-color: var(--brand);
+  --side-bar-menu-active-tint: var(--brand-deep);
+  --monospace: var(--font-monospace);
+  --window-border: 1px solid var(--outline);
+}
+
+/* [BASE] — frame + paper. */
+html {
+  font-size: inherit; /* Typora's font-size preference owns this */
+}
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background-color: var(--frame);
+}
+content {
+  background-color: var(--surface);
+}
+#write {
+  max-width: var(--file-line-width, none); /* full-width flow: the window is the only width authority */
+  margin: 0 auto;
+  padding: 24px 40px 120px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: var(--body-leading);
+  letter-spacing: var(--body-tracking);
+  word-break: normal;       /* CJK-safe line breaking */
+  overflow-wrap: anywhere;
+  caret-color: var(--marker);
+  background-color: var(--paper);
+  background-image: var(--ambient);      /* brand ambient wash (red/purple/cyan, tuned for reading) */
+  background-attachment: fixed;
+}
+#write p {
+  line-height: var(--body-leading);
+  margin: 0 0 0.75em;
+}
+#write ::selection {
+  background-color: var(--selection);
+  color: var(--on-brand);
+}
+
+/* [HEADINGS] — Rajdhani display headings in the brand red, full-width underline rules
+   with descending thickness per level (::after blocks). */
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6 {
+  font-family: var(--font);
+  font-weight: var(--heading-weight);
+  color: var(--heading);
+  text-align: start;
+  padding: 0;
+  line-height: var(--heading-leading);
+  letter-spacing: var(--heading-tracking);
+  margin: calc(10px * 2) 0 10px;
+  display: flow-root;
+  background: transparent;
+}
+#write h1 {
+  margin-top: 0.5em;
+}
+#write h1 { font-size: var(--h1-size); }
+#write h2 { font-size: var(--h2-size); }
+#write h3 { font-size: var(--h3-size); }
+#write h4 { font-size: var(--h4-size); }
+#write h5 { font-size: var(--h5-size); }
+#write h6 { font-size: var(--h6-size); }
+/* Full-width rules with descending thickness — a deliberate hierarchy device that
+   stays legible at any window width. */
+#write h1::after, #write h2::after, #write h3::after, #write h4::after, #write h5::after, #write h6::after {
+  content: "";
+  display: block;
+  width: 100%;
+  background: var(--heading);
+  opacity: 0.55;
+  margin-top: 4px;
+}
+#write h1::after { height: 4px; }
+#write h2::after { height: 3px; }
+#write h3::after { height: 2px; }
+#write h4::after { height: 2px; opacity: 0.4; }
+#write h5::after { height: 1px; opacity: 0.4; }
+#write h6::after { height: 1px; opacity: 0.3; }
+
+/* [LINKS] — brand-blue links, red hover, no underline, masked-SVG external-link mark. */
+#write a {
+  color: var(--link);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+#write a:hover {
+  color: var(--link-hover);
+}
+#write a::after {
+  content: "";
+  display: inline-block;
+  width: 0.6em;
+  height: 0.6em;
+  margin-left: 2px;
+  vertical-align: 0.05em;
+  background-color: currentColor;
+  opacity: 0.6;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 11.5 L11 5 M6 4.2 h5.3 v5.3' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='square'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 11.5 L11 5 M6 4.2 h5.3 v5.3' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='square'/%3E%3C/svg%3E");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+/* [EMPHASIS] — Rajdhani Bold; highlight mark on the brand mark tint. */
+#write strong {
+  font-weight: 700;
+  color: inherit;
+}
+#write em {
+  color: inherit;
+}
+#write mark {
+  background-color: var(--mark-bg);
+  color: var(--ink);
+  font-weight: 500;
+  padding: 0.05em 0.2em;
+  border-radius: var(--radius-sm);
+}
+
+/* [CODE-INLINE] — v3: defined chip (border + panel bg; the bare shadow chip read weak). */
+#write code, #write samp, #write tt {
+  font-family: var(--font-monospace);
+  background-color: var(--code-bg);
+  color: var(--code-ink);
+  border: 1px solid var(--edge);
+  padding: 0.12em 0.45em;
+  border-radius: var(--radius-sm);
+  font-size: 0.92em;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+/* kbd as a keycap */
+#write kbd {
+  font-family: var(--font-monospace);
+  font-size: 0.8em;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--edge-strong);
+  box-shadow: var(--shadow-sm);
+  padding: 0.1em 0.5em;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* [QUOTE] — editorial transparent quote with a marker bar. */
+#write blockquote {
+  border-left: 3px solid var(--marker);
+  background: transparent;
+  color: var(--ink);
+  padding: 4px 0 4px 16px;
+  margin: 14px 0;
+  font-style: italic;
+}
+#write blockquote p {
+  line-height: 1.6;
+  margin-bottom: 0.5em;
+}
+
+/* [HR] — 2px rule with a centered rotated-square diamond in the marker red. */
+#write hr, #write div.hr {
+  border: none;
+  border-top: 2px solid var(--rule);
+  position: relative;
+  height: 0;
+  margin: 2em auto;
+  overflow: visible;
+}
+#write hr::after, #write div.hr::after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 8px;
+  height: 8px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: var(--marker);
+}
+
+/* [LISTS] — 25px indent, marker-red bullets, heading-red numbers. */
+#write ul, #write ol {
+  padding-inline-start: 25px;
+  margin: 10px 0;
+  display: flow-root;
+}
+#write ul ul, #write ul ol, #write ol ul, #write ol ol {
+  margin: 0;
+}
+#write li {
+  padding-bottom: 2px;
+  margin-top: 2px;
+}
+#write ul > li::marker {
+  color: var(--marker);
+}
+#write ol > li::marker {
+  color: var(--heading);
+  font-weight: 600;
+}
+
+/* [TASKLIST] — square marker-red checkboxes; keeps Typora's absolute input model. */
+#write .task-list-item input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1em;
+  height: 1em;
+  border: 2px solid var(--marker);
+  background-color: transparent;
+  border-radius: 9999px;
+  position: absolute;
+  margin-left: -1.2em;
+  margin-top: calc(1em - 10px);
+  display: inline-block;
+}
+/* completed tasks: muted + struck (via :has where supported) */
+#write .task-list-item:has(input:checked) {
+  color: var(--ink-soft);
+  text-decoration: line-through;
+  text-decoration-color: var(--ink-soft);
+}
+#write .task-list-item:has(input:checked) input {
+  text-decoration: none;
+}
+#write .task-list-item input:hover {
+  border-color: var(--marker);
+}
+#write .task-list-item input:checked {
+  background-color: var(--checkbox-color);
+  border-color: var(--checkbox-color);
+}
+#write .task-list-item input:checked::before {
+  content: "\2713";
+  color: var(--on-brand);
+  font-weight: 700;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -52%);
+  font-size: 0.85em;
+  line-height: 1;
+}
+
+/* [TABLE] — solid brand-red header band, hairline grid, subtle zebra rows, tinted hover. */
+#write table {
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 14px 0;
+  display: table;
+  width: 100%;
+  border: 1px solid var(--grid);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+}
+#write table th {
+  background: var(--th-band);
+  color: var(--th-ink);
+  font-weight: 600;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--grid);
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.9em;
+}
+#write table td {
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--grid);
+  color: var(--ink);
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+#write table tr:last-child td {
+  border-bottom: none;
+}
+#write table tr:nth-child(2n) td {
+  background: var(--row-tint);
+}
+#write table tr:hover td {
+  background: var(--hover-bg);
+}
+#write table tr:nth-child(2n):hover td {
+  background: var(--hover-bg);
+}
+/* table edit overlays (add row/col, resize) */
+#write .md-grid-board span.btn,
+#write .md-table-resize-popover .btn {
+  background: var(--brand-deep);
+  color: var(--on-brand);
+  border: none;
+}
+
+/* [FOOTNOTES] — soft definitions with a hairline divider. */
+#write sup.md-footnote {
+  color: var(--ink-soft);
+  font-size: 0.75em;
+  top: -0.5em;
+}
+#write .footnotes, #write .md-def-footnote {
+  color: var(--ink-soft);
+  font-size: 0.92em;
+  border-top: 1px solid var(--rule);
+  margin-top: 2em;
+  padding-top: 1em;
+}
+#write .md-def-name {
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+/* [TOC] — boxed card, soft-text tree. */
+#write .md-toc {
+  margin: 20px 0;
+  color: var(--ink-soft);
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  padding: 14px 18px;
+}
+#write .md-toc-item a {
+  color: var(--link);
+}
+#write .md-toc-item a:hover {
+  color: var(--link-hover);
+}
+#write .md-toc-h1 { font-weight: 600; }
+#write .md-toc-h2 { padding-left: 1.2em; }
+#write .md-toc-h3 { padding-left: 2.4em; }
+#write .md-toc-h4 { padding-left: 3.6em; }
+#write .md-toc-h5 { padding-left: 4.8em; }
+#write .md-toc-h6 { padding-left: 6em; }
+
+/* [META/FRONTMATTER] — v3: compact bordered key strip (was an empty dark slab). */
+#write pre.md-meta-block {
+  background: var(--panel);
+  color: var(--ink-soft);
+  font-size: 0.85em;
+  font-family: var(--font-monospace);
+  padding: 6px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--edge);
+  box-shadow: var(--shadow-sm);
+  line-height: 1.5;
+  margin-bottom: 1.25em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* [MATH] — math in the bright brand tone. */
+#write .md-math-container,
+#write .mathjax-block,
+#write mjx-container,
+#write .md-inline-math mjx-container {
+  color: var(--math);
+}
+
+/* [IMAGES] — native block flow, square corners, hairline frame; fit within the line. */
+#write img {
+  max-width: 100%;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--edge);
+}
+#write .md-image .md-meta {
+  color: var(--ink-faint);
+  font-size: 0.85em;
+}
+
+/* [SEARCH-HIGHLIGHT] */
+#write .md-search-hit, .searchpanel-search-hit {
+  background: var(--mark-bg);
+  color: var(--on-brand);
+}
+
+/* [GHOST-SYNTAX] — # markers, [ ] brackets etc. in focus mode. */
+#write .md-meta, #write .md-before, #write .md-after {
+  color: var(--ink-faint);
+}
+#write .md-comment {
+  color: var(--ink-faint);
+  font-family: var(--font-monospace);
+}
+#write .md-expand .md-meta {
+  color: var(--ink-soft);
+}
+
+/* ============================== APP CHROME ============================== */
+
+/* [TITLEBAR] */
+#top-titlebar, .window-header, header {
+  background: var(--frame);
+  color: var(--control-text-color);
+  border-bottom: 1px solid var(--edge);
+}
+#top-titlebar:hover, .window-header:hover {
+  color: var(--ink);
+}
+.title-text {
+  color: var(--control-text-color);
+}
+
+/* [SIDEBAR] — frame chrome, soft text, brand-red selection and hovers. */
+#typora-sidebar, .sidebar-content, #file-library, .sidebar-tabs {
+  background: var(--frame);
+  color: var(--ink-soft);
+}
+.file-node-content, .file-list-item {
+  color: var(--ink-soft);
+}
+.file-node-content, .file-list-item { transition: background var(--duration-fast) var(--ease-smooth), color var(--duration-fast) var(--ease-smooth); }
+.file-node-content:hover, .file-list-item:hover, .file-node-content:focus {
+  background: var(--hover-bg);
+  color: var(--ink);
+}
+.file-library-node.active > .file-node-background,
+.file-list-item.active, #file-library .active {
+  background: rgba(var(--brand-rgb), 0.18);
+  color: var(--ink);
+  border-left: 3px solid var(--marker);
+}
+#file-library-search-input {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--edge);
+}
+#file-library-search-input:focus {
+  border-color: var(--brand);
+}
+.sidebar-tabs {
+  border-bottom: 1px solid var(--edge);
+}
+
+/* [OUTLINE] */
+.outline-content, #outline-content {
+  color: var(--ink-soft);
+}
+.outline-item, .outline-label {
+  color: var(--ink-soft);
+}
+.outline-item:hover {
+  background: var(--hover-bg);
+  color: var(--ink);
+}
+.outline-item-active {
+  background: rgba(var(--brand-rgb), 0.18);
+  color: var(--ink);
+}
+
+/* [FOOTER] */
+footer.ty-footer, #footer {
+  background: var(--frame);
+  color: var(--control-text-color);
+  border-top: 1px solid var(--edge);
+}
+#footer-word-count-label, #footer-word-count-info,
+.footer-item, .sidebar-footer-main-item-label {
+  color: var(--control-text-color);
+}
+#footer-word-count-info table td, #footer-word-count-info table tr {
+  background: transparent;
+  color: var(--control-text-color);
+  border: none;
+}
+
+/* [MEGAMENU] */
+#megamenu-content, #megamenu-menu-panel {
+  background: var(--paper);
+  color: var(--ink);
+}
+#megamenu-menu-sidebar {
+  background: var(--frame);
+  color: var(--ink-soft);
+}
+.megamenu-menu-section, #megamenu-menu-panel h1 {
+  color: var(--ink);
+}
+.megamenu-menu-list > li {
+  color: var(--ink-soft);
+}
+.megamenu-menu-list > li:hover, .megamenu-menu-list > li:focus,
+#megamenu-menu-list > li:hover {
+  background: var(--hover-bg);
+  color: var(--ink);
+}
+.megamenu-menu-list li a.active,
+.megamenu-menu-list li a:hover {
+  color: var(--link);
+  background: transparent;
+}
+#megamenu-back-btn:hover {
+  background: var(--hover-bg);
+}
+.megamenu-menu-panel h2::before {
+  color: var(--heading);
+}
+#recent-file-panel {
+  background: var(--paper);
+  color: var(--ink);
+}
+#recent-file-panel .recent-file-panel-row:hover, .recent-file-panel-row:focus {
+  background: var(--hover-bg);
+}
+#recent-file-panel-search-input, #recent-file-panel-search-input:hover,
+#recent-file-panel-search-input:focus {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--edge);
+}
+#theme-preview-grid {
+  background: var(--surface);
+}
+
+/* [MENUS/DROPDOWN/CONTEXT] */
+.dropdown-menu, .context-menu {
+  background: var(--panel);
+  color: var(--ink);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--edge);
+}
+.dropdown-menu .active a, .dropdown-menu > li > a:hover,
+.context-menu > li > a:hover, .context-menu > li > a:focus {
+  background: var(--hover-bg);
+  color: var(--ink);
+}
+.dropdown-menu .divider {
+  background: var(--edge);
+}
+
+/* [MODALS] */
+.modal-content, .modal-header, .modal-body, .modal-footer {
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: var(--radius-xl);
+}
+.modal-header {
+  border-bottom: 1px solid var(--edge);
+}
+.modal-title {
+  color: var(--ink);
+}
+.modal-backdrop {
+  background: var(--edge-strong);
+}
+
+/* [BUTTONS/INPUTS] */
+.btn-default {
+  background: var(--panel);
+  color: var(--ink);
+  border: 1px solid var(--edge-strong);
+  border-radius: var(--radius-md);
+  transition: background var(--duration-fast) var(--ease-smooth), box-shadow var(--duration-fast) var(--ease-smooth);
+}
+.btn-default:hover, .btn-default:focus {
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.btn-primary {
+  background: var(--brand);
+  color: var(--on-brand);
+  border: 1px solid var(--brand);
+  border-radius: var(--radius-md);
+  transition: background var(--duration-fast) var(--ease-smooth), box-shadow var(--duration-fast) var(--ease-smooth);
+}
+.btn-primary:hover, .btn-primary:focus {
+  background: var(--brand);
+  color: var(--on-brand);
+  box-shadow: var(--shadow-glow-red);
+}
+.long-btn, .long-btn-wrap:hover .long-btn {
+  background: var(--code-bg);
+  color: var(--ink);
+}
+#write input:not([type="range"]):not([type="color"]):focus, input:focus {
+  border-color: var(--marker);
+}
+.label-input-group .row:hover {
+  background: var(--hover-bg);
+}
+
+/* [SEARCHPANEL/QUICKOPEN] */
+#md-searchpanel, #typora-quick-open {
+  background: var(--panel);
+  color: var(--ink);
+}
+#md-searchpanel input {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--edge);
+}
+#md-searchpanel .btn:hover {
+  background: var(--hover-bg);
+}
+#ty-autosuggest, .ty-autosuggest-dialog {
+  background: var(--panel);
+  color: var(--ink);
+}
+.active, .ty-autosuggest-dialog .active {
+  background: var(--hover-bg);
+}
+
+/* [TOOLTIPS/POPOVERS/NOTIFY] */
+.ty-tooltip, .tooltip-inner, .ty-popover, .md-hover-tip {
+  background: var(--panel);
+  color: var(--ink);
+  border: 1px solid var(--edge);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+.md-hover-tip .md-footnote {
+  color: var(--ink);
+}
+#md-notification {
+  background: var(--panel);
+  border: 2px solid var(--edge-strong);
+}
+
+/* [SCROLLBAR] — the brand recipe: slim pill, hairline thumb, red hover. */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background: transparent;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ink-dim);
+  border: 2px solid transparent;
+  border-radius: 9999px;
+  background-clip: padding-box;
+  transition: background var(--duration-fast) var(--ease-smooth);
+}
+::-webkit-scrollbar-thumb:hover, ::-webkit-scrollbar-thumb:active {
+  background: rgba(var(--brand-rgb), 0.45);
+  background-clip: padding-box;
+}
+
+/* [FOCUS-VISIBLE] — brand ring */
+#write a:focus-visible, .btn:focus-visible, .file-node-content:focus-visible {
+  outline: 2px solid var(--marker);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* [FOCUS-MODE] */
+.on-focus-mode #write p, .on-focus-mode #write .md-focus .md-expand,
+.blur-mode #write p {
+  color: var(--ink-faint);
+}
+.on-focus-mode #write .md-focus p, .blur-mode #write .md-focus p {
+  color: var(--ink);
+}

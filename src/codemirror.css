@@ -1,0 +1,111 @@
+/* [CODEMIRROR] — code fences + source mode.
+   Three coverage surfaces:
+   1. pre.md-fences base (pre-CodeMirror state)
+   2. .md-fences.mock-cm bare .cm-* spans (unfocused fences — no .CodeMirror ancestor)
+   3. focused .CodeMirror.cm-s-inner + source mode #typora-source .cm-s-typora-default
+   Token colors: the CryptoMize syntax palette (--cm-* tokens, WCAG-AA on the code surface).
+   Rules use :is(#write, #typora-source) .cm-* = (1,1,0) to beat Typora's built-in (0,2,0). */
+
+pre.md-fences {
+  background: var(--code-bg);
+  color: var(--ink);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--edge);
+  border-radius: var(--radius-lg);
+  padding: 12px 16px;
+  margin: 14px 0;
+  font-family: var(--font-monospace);
+  line-height: 1.55;
+  font-variant-numeric: tabular-nums;
+}
+.md-fences.mock-cm {
+  white-space: pre-wrap;
+}
+#write.fences-no-line-wrapping .md-fences.mock-cm {
+  white-space: pre;
+  overflow-x: auto;
+}
+/* the language tooltip / raw-edit panel on fences */
+.code-tooltip, .md-fences-adv-panel {
+  background: var(--panel);
+  color: var(--ink);
+  border: 1px solid var(--edge-strong);
+}
+.ty-cm-lang-input {
+  background: var(--surface);
+  color: var(--ink);
+}
+#typora-source .cm-s-typora-default, .cm-s-inner {
+  background: var(--code-bg);
+  color: var(--ink);
+}
+.CodeMirror div.CodeMirror-cursor {
+  border-left: 1.5px solid var(--ink);
+}
+.CodeMirror-selectedtext, .CodeMirror-selected {
+  background: var(--selection);
+}
+.CodeMirror-gutters {
+  background: var(--code-bg);
+  border: none;
+}
+.CodeMirror-linenumber {
+  color: var(--ink-faint);
+}
+.CodeMirror-activeline-background {
+  background: var(--code-bg);
+}
+.CodeMirror-matchingbracket {
+  color: var(--brand-bright) !important;
+  font-weight: 700;
+}
+
+/* — token palette (shared by mock-cm, .cm-s-inner, source mode) — */
+:is(#write, #typora-source) .cm-keyword { color: var(--cm-keyword); }
+:is(#write, #typora-source) .cm-tag { color: var(--cm-tag); }
+:is(#write, #typora-source) .cm-attribute { color: var(--cm-atom); }
+:is(#write, #typora-source) .cm-string, :is(#write, #typora-source) .cm-string-2 { color: var(--cm-string); }
+:is(#write, #typora-source) .cm-comment { color: var(--ink-faint); font-family: var(--font-monospace); }
+:is(#write, #typora-source) .cm-def { color: var(--cm-def); }
+:is(#write, #typora-source) .cm-header, :is(#write, #typora-source) .cm-header-1,
+:is(#write, #typora-source) .cm-header-2, :is(#write, #typora-source) .cm-header-3,
+:is(#write, #typora-source) .cm-header-4, :is(#write, #typora-source) .cm-header-5,
+:is(#write, #typora-source) .cm-header-6 {
+  color: var(--heading);
+  font-weight: 700;
+}
+:is(#write, #typora-source) .cm-quote { color: #57ac57; }
+:is(#write, #typora-source) .cm-builtin { color: var(--cm-builtin); }
+:is(#write, #typora-source) .cm-atom { color: var(--cm-atom); }
+:is(#write, #typora-source) .cm-number { color: var(--cm-number); }
+:is(#write, #typora-source) .cm-property { color: var(--cm-property); }
+:is(#write, #typora-source) .cm-operator { color: var(--cm-tag); }
+:is(#write, #typora-source) .cm-variable { color: var(--ink); }
+:is(#write, #typora-source) .cm-variable-2 { color: var(--ink-soft); }
+:is(#write, #typora-source) .cm-variable-3 { color: var(--ink-faint); }
+:is(#write, #typora-source) .cm-meta { color: var(--ink-soft); }
+:is(#write, #typora-source) .cm-qualifier { color: var(--cm-builtin); }
+:is(#write, #typora-source) .cm-bracket { color: var(--ink-soft); }
+:is(#write, #typora-source) .cm-link { color: var(--link); }
+:is(#write, #typora-source) .cm-url { color: var(--link); }
+:is(#write, #typora-source) .cm-hr { color: var(--rule); }
+:is(#write, #typora-source) .cm-formatting, :is(#write, #typora-source) .cm-formatting-header,
+:is(#write, #typora-source) .cm-formatting-list { color: var(--ink-faint); }
+:is(#write, #typora-source) .cm-em { color: inherit; font-style: italic; }
+:is(#write, #typora-source) .cm-strong { color: inherit; font-weight: 700; }
+:is(#write, #typora-source) .cm-error { color: var(--cm-tag); }
+
+/* language chip on fenced blocks (formatting diversity) */
+#write pre.md-fences[lang]::before {
+  content: attr(lang);
+  float: right;
+  font-size: 0.75em;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  padding: 0.1em 0.55em;
+  border: 1px solid var(--edge);
+  border-radius: var(--radius-sm);
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+}

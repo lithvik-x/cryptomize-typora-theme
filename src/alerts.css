@@ -1,0 +1,60 @@
+/* [ALERTS] — GFM alerts in the CryptoMize semantic palette (info-blue, success-green,
+   purple, gold, red), WCAG-verified per mode via the --gfm-* tokens. Tints via rgb
+   triplets; Typora's built-in SVG icons are kept and tinted by the label color. */
+
+#write .md-alert {
+  border: 1px solid var(--edge);
+  border-left: 4px solid var(--gfm-note);
+  background-color: rgba(var(--gfm-note-rgb), 0.10);
+  padding: 10px 16px;
+  margin: 12px 0;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  color: var(--ink);
+}
+#write .md-alert-text {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.88em;
+}
+#write .md-alert.md-alert-note {
+  border-left-color: var(--gfm-note);
+  background-color: rgba(var(--gfm-note-rgb), 0.12);
+}
+#write .md-alert.md-alert-note .md-alert-text, #write .md-alert-note svg {
+  color: var(--gfm-note);
+  fill: var(--gfm-note);
+}
+#write .md-alert.md-alert-tip {
+  border-left-color: var(--gfm-tip);
+  background-color: rgba(var(--gfm-tip-rgb), 0.12);
+}
+#write .md-alert.md-alert-tip .md-alert-text, #write .md-alert-tip svg {
+  color: var(--gfm-tip);
+  fill: var(--gfm-tip);
+}
+#write .md-alert.md-alert-important {
+  border-left-color: var(--gfm-important);
+  background-color: rgba(var(--gfm-important-rgb), 0.12);
+}
+#write .md-alert.md-alert-important .md-alert-text, #write .md-alert-important svg {
+  color: var(--gfm-important);
+  fill: var(--gfm-important);
+}
+#write .md-alert.md-alert-warning {
+  border-left-color: var(--gfm-warning);
+  background-color: rgba(var(--gfm-warning-rgb), 0.12);
+}
+#write .md-alert.md-alert-warning .md-alert-text, #write .md-alert-warning svg {
+  color: var(--gfm-warning);
+  fill: var(--gfm-warning);
+}
+#write .md-alert.md-alert-caution {
+  border-left-color: var(--gfm-caution);
+  background-color: rgba(var(--gfm-caution-rgb), 0.12);
+}
+#write .md-alert.md-alert-caution .md-alert-text, #write .md-alert-caution svg {
+  color: var(--gfm-caution);
+  fill: var(--gfm-caution);
+}

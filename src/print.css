@@ -1,0 +1,114 @@
+/* [PRINT] — full A4 print design: real margins, pt typography, pagination rules
+   (no orphan headings, no split code/alerts/rows), print-safe rules and chips.
+   The dark file additionally gets a build-generated @media print token flip to light
+   for ink-friendly export; delete that block in dist/cryptomize-dark.css for WYSIWYG
+   dark export. */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 16mm 15mm 18mm;
+  }
+  .typora-export * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  html, body, content {
+    background: var(--paper) !important;
+    color: var(--ink);
+  }
+  #write {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 10.5pt;
+    line-height: 1.55;
+  }
+  #write p {
+    orphans: 3;
+    widows: 3;
+    margin: 0 0 0.6em;
+  }
+  /* pt heading scale; never orphan a heading at a page bottom */
+  #write h1, #write h2, #write h3, #write h4, #write h5, #write h6 {
+    page-break-after: avoid;
+    break-after: avoid;
+    margin: 1.4em 0 0.45em;
+  }
+  #write h1 { font-size: 17pt; }
+  #write h2 { font-size: 14pt; }
+  #write h3 { font-size: 12pt; }
+  #write h4 { font-size: 11pt; }
+  #write h5 { font-size: 10.5pt; }
+  #write h6 { font-size: 10pt; }
+  #write h1::after, #write h2::after, #write h3::after, #write h4::after,
+  #write h5::after, #write h6::after {
+    opacity: 0.3;
+    margin-top: 2px;
+  }
+  /* code: keep on the page, wrap long lines, printable border */
+  #write pre.md-fences {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    border: 1px solid var(--edge);
+    box-shadow: none;
+    font-size: 9pt;
+    line-height: 1.45;
+    white-space: pre-wrap;
+    word-break: break-word;
+    padding: 8pt 10pt;
+  }
+  #write pre.md-fences[lang]::before {
+    border: 1px solid var(--edge);
+    padding: 0 4pt;
+  }
+  #write code, #write samp, #write tt {
+    box-shadow: none;
+    font-size: 9.5pt;
+  }
+  #write blockquote {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  #write .md-alert {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  #write table {
+    page-break-inside: auto;
+    font-size: 9.5pt;
+  }
+  #write thead {
+    display: table-header-group;
+  }
+  #write tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  #write img {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    max-width: 100%;
+  }
+  #write hr {
+    margin: 1.2em auto;
+  }
+  #write .md-toc {
+    page-break-inside: avoid;
+  }
+  #write a {
+    text-decoration: none;
+  }
+  /* app chrome never prints */
+  #typora-sidebar, footer.ty-footer, #top-titlebar, .window-header, header,
+  #md-searchpanel, #megamenu-content, .ty-footer, #footer,
+  .dropdown-menu, .context-menu, #md-notification {
+    display: none !important;
+  }
+}
+
+/* HTML export keeps the screen design with comfortable page padding */
+body.typora-export {
+  padding: 30px 40px;
+  background: var(--paper);
+}

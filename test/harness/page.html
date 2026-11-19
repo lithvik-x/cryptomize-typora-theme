@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ITS Typora harness</title>
+<link id="theme" rel="stylesheet" href="">
+<style>
+  /* reset to Typora-ish defaults so the theme under test paints on a clean slate */
+  html, body { margin: 0; padding: 0; }
+  * { box-sizing: border-box; }
+  body { font-size: 16px; }
+  /* minimal skeleton styles the app itself provides before the theme loads;
+     the theme is expected to override all of these */
+  #write { padding: 30px; outline: none; }
+  h1, h2, h3, h4, h5, h6 { margin: 0; font-weight: bold; font-size: 1em; }
+  p { margin: 0; }
+  blockquote { margin: 0; }
+  table { border-spacing: 0; }
+  th, td { padding: 0; }
+  pre { margin: 0; }
+  ul, ol { margin: 0; padding-left: 30px; }
+  a { color: blue; }
+  code { font-family: monospace; }
+  .task-list-item { list-style: none; }
+  .task-list-item input { position: absolute; margin-left: -1.2em; }
+  .md-toc-item { text-decoration: none; display: block; }
+  hr { border: none; border-top: 1px solid gray; }
+  /* marker for the harness itself */
+  .harness-note { display: none; }
+</style>
+</head>
+<body>
+<content>
+<div id="write" class="show-full-width">
+
+<pre class="md-meta-block">---
+title: ITS Theme Test
+tags: [typora, its, harness]
+---</pre>
+
+<h1>Heading One — ITS Signature</h1>
+<h2>Heading Two</h2>
+<h3>Heading Three</h3>
+<h4>Heading Four</h4>
+<h5>Heading Five</h5>
+<h6>Heading Six</h6>
+
+<p>Regular paragraph with <strong>bold weight 900</strong>, <em>italic text</em>, <code>inline code</code>, a <a href="https://example.com">blue external link</a>, and a <mark>highlighted mark</mark> plus <del>struck text</del>. Normal body copy in Rajdhani at line-height 1.5 to inspect the rhythm of the line box and the paper color contrast against the frame.</p>
+
+<blockquote>
+<p>A blockquote with the ITS treatment: seven-pixel left border on the workspace color, embed background fill, and comfortable padding.</p>
+</blockquote>
+
+<blockquote class="md-alert md-alert-note">
+<div class="md-alert-text-container"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Z"></path></svg><span class="md-alert-text" data-text="Note">Note</span></div>
+<p>GFM note alert mapped to the ITS blue callout.</p>
+</blockquote>
+
+<blockquote class="md-alert md-alert-tip">
+<div class="md-alert-text-container"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Z"></path></svg><span class="md-alert-text" data-text="Tip">Tip</span></div>
+<p>GFM tip alert in ITS green.</p>
+</blockquote>
+
+<blockquote class="md-alert md-alert-important">
+<div class="md-alert-text-container"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Z"></path></svg><span class="md-alert-text" data-text="Important">Important</span></div>
+<p>GFM important alert in ITS purple.</p>
+</blockquote>
+
+<blockquote class="md-alert md-alert-warning">
+<div class="md-alert-text-container"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Z"></path></svg><span class="md-alert-text" data-text="Warning">Warning</span></div>
+<p>GFM warning alert in ITS yellow.</p>
+</blockquote>
+
+<blockquote class="md-alert md-alert-caution">
+<div class="md-alert-text-container"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Z"></path></svg><span class="md-alert-text" data-text="Caution">Caution</span></div>
+<p>GFM caution alert in ITS red.</p>
+</blockquote>
+
+<ul>
+<li>Top-level bullet with the ITS marker treatment</li>
+<li>Second bullet
+<ul>
+<li>Nested bullet one level deep</li>
+<li>Another nested item</li>
+</ul>
+</li>
+</ul>
+
+<ol>
+<li>Numbered item in ITS red</li>
+<li>Second numbered item</li>
+</ol>
+
+<ul class="task-list">
+<li class="task-list-item"><input type="checkbox" checked="checked"><span class="task-list-item-text">Completed task with ITS accent checkbox</span></li>
+<li class="task-list-item"><input type="checkbox"><span class="task-list-item-text">Open task unchecked</span></li>
+</ul>
+
+<table>
+<thead><tr><th>Table Header One</th><th>Header Two</th><th>Header Three</th></tr></thead>
+<tbody>
+<tr><td>row one cell</td><td>another cell</td><td>third column value</td></tr>
+<tr><td>row two cell</td><td>alternating row tint</td><td>more data</td></tr>
+<tr><td>row three cell</td><td>hover tint check</td><td>final value</td></tr>
+</tbody>
+</table>
+
+<pre class="md-fences mock-cm md-end-block" lang="javascript"><span class="cm-keyword">const</span> <span class="cm-def">theme</span> <span class="cm-operator">=</span> <span class="cm-string">"ITS"</span>; <span class="cm-comment">// unfocused fence (mock-cm, bare spans)</span>
+<span class="cm-keyword">function</span> <span class="cm-def">port</span>(<span class="cm-variable">css</span>) { <span class="cm-keyword">return</span> <span class="cm-variable-2">tokens</span>.<span class="cm-property">extract</span>(<span class="cm-variable">css</span>); }
+<span class="cm-number">742</span> <span class="cm-atom">tokens</span> <span class="cm-tag">&lt;span</span> <span class="cm-attribute">class</span>=<span class="cm-string">"cm-builtin"</span><span class="cm-tag">&gt;</span>byte-exact<span class="cm-tag">&lt;/span&gt;</span></pre>
+
+<pre class="md-fences md-end-block"><div class="CodeMirror cm-s-inner"><div class="CodeMirror-scroll"><div class="CodeMirror-sizer"><div class="CodeMirror-lines"><div class="CodeMirror-code"><pre class="CodeMirror-line"><span class="cm-keyword">import</span> <span class="cm-def">fidelity</span> <span class="cm-keyword">from</span> <span class="cm-string">"vault"</span>;</pre><pre class="CodeMirror-line"><span class="cm-comment">// focused fence (CodeMirror shape)</span></pre><pre class="CodeMirror-line"><span class="cm-variable">console</span>.<span class="cm-property">log</span>(<span class="cm-number">1005</span>, <span class="cm-string-2">"vars"</span>);</pre></div></div></div></div></div></pre>
+
+<hr>
+<div class="hr"></div>
+
+<div class="md-toc md-end-block"><div class="md-toc-content"><a class="md-toc-item md-toc-h1" href="#">Heading One — ITS Signature</a><a class="md-toc-item md-toc-h2" href="#">Heading Two</a><a class="md-toc-item md-toc-h3" href="#">Heading Three</a><a class="md-toc-item md-toc-h4" href="#">Heading Four</a></div></div>
+
+<p>Text with a footnote reference<sup class="md-footnote">1</sup> inline.</p>
+<div class="footnotes"><span class="md-def-footnote"><span class="md-def-name">1.</span> <span class="md-def-content">The footnote definition in ITS soft text with a hairline top border.</span></span></div>
+
+<p><span class="md-image"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMjAiIGhlaWdodD0iMTgwIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjE4MCIgZmlsbD0iI2NjZDZlYiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzMwMzUzYSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlPC90ZXh0Pjwvc3ZnPg==" alt="test image"></span></p>
+
+<div class="md-math-container mathjax-block"><span style="font-family: serif; font-style: italic;">E = mc<sup>2</sup></span></div>
+
+</div>
+</content>
+</body>
+</html>
